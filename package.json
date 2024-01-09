@@ -1,3 +1,4 @@
 {
-  "name": "cushy"
+  "private": true,
+  "name": "monorepo"
 }
