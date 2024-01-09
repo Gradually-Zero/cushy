@@ -1,0 +1,31 @@
+{
+  "name": "cushy",
+  "dependencies": {
+    "commander": "^11.1.0",
+    "fs-extra": "^11.2.0",
+    "jiti": "^1.21.0",
+    "joi": "^17.11.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.21.1",
+    "react-router-dom": "^6.21.1",
+    "tslib": "^2.6.2",
+    "webpack": "^5.89.0",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.10.7",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0"
+  },
+  "bin": {
+    "cushy": "bin/cushy.mjs"
+  },
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "types": "./src/index.d.ts"
+}

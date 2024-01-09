@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "references": [
+    {
+      "path": "./tsconfig.server.json"
+      // },
+      // {
+      //   "path": "./tsconfig.client.json"
+    }
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "checkJs": true,
+    "rootDir": "."
+  },
+  "include": [
+    "bin"
+  ],
+}

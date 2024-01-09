@@ -1,0 +1,11 @@
+{
+  "name": "example",
+  "scripts": {
+    "dev": "cushy dev",
+    "build": "cushy build",
+    "preview": "cushy preview"
+  },
+  "dependencies": {
+    "cushy": "workspace:^"
+  }
+}
