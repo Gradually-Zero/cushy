@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import jiti from 'jiti';
 import Joi from 'joi';
-import { CWD, DEFAULT_CONFIG_FILE_NAME } from './constants';
+import { process_CWD, DEFAULT_CONFIG_FILE_NAME } from '../constants';
 import logger from '../logger';
 
 interface LoadCustomCushyConfig {
@@ -13,13 +13,13 @@ export interface CushyConfig {
   patterns?: string[];
 }
 
-interface LoadContext {
+export interface LoadContext {
   siteConfig: CushyConfig;
   siteConfigPath: string;
 }
 
 export async function loadCustomCushyConfig({ customConfigFilePath }: LoadCustomCushyConfig): Promise<LoadContext> {
-  const siteConfigPath = customConfigFilePath ? path.resolve(CWD, customConfigFilePath) : await findConfig(CWD);
+  const siteConfigPath = customConfigFilePath ? path.resolve(process_CWD, customConfigFilePath) : await findConfig(process_CWD);
 
   if (!(await fs.pathExists(siteConfigPath))) {
     throw new Error(`Config file at "${siteConfigPath}" not found.`);
@@ -29,7 +29,7 @@ export async function loadCustomCushyConfig({ customConfigFilePath }: LoadCustom
 
   const loadedConfig: unknown = typeof importedConfig === 'function' ? await importedConfig() : await importedConfig;
 
-  const siteConfig = validateConfig(loadedConfig, path.relative(CWD, siteConfigPath));
+  const siteConfig = validateConfig(loadedConfig, path.relative(process_CWD, siteConfigPath));
 
   return { siteConfig, siteConfigPath };
 }
