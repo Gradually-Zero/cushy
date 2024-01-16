@@ -1,4 +1,7 @@
 {
   "private": true,
-  "name": "monorepo"
+  "name": "monorepo",
+  "scripts": {
+    "dev": "pnpm -F cushy build && pnpm -F example dev"
+  }
 }

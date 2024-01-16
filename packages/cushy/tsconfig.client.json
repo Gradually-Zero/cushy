@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
     "noEmit": false,
     "composite": true,
     "incremental": true,
@@ -11,6 +12,10 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src/client", "src/*.d.ts"],
-  "exclude": ["**/__tests__/**"]
+  "include": [
+    "src/client"
+  ],
+  "exclude": [
+    "**/__tests__/**"
+  ]
 }
