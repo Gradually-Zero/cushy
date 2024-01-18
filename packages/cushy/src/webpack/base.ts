@@ -47,46 +47,9 @@ export async function createBaseConfig(props: ClientConfigProps, isServer: boole
             },
           ],
         },
-
-        // fileLoaderUtils.rules.images(),
-        // fileLoaderUtils.rules.fonts(),
-        // fileLoaderUtils.rules.media(),
-        // fileLoaderUtils.rules.svg(),
-        // fileLoaderUtils.rules.otherAssets(),
-
-        // {
-        //   test: CSS_REGEX,
-        //   exclude: CSS_MODULE_REGEX,
-        //   use: getStyleLoaders(isServer, {
-        //     importLoaders: 1,
-        //     sourceMap: !isProd,
-        //   }),
-        // },
-        // // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-        // // using the extension .module.css
-        // {
-        //   test: CSS_MODULE_REGEX,
-        //   use: getStyleLoaders(isServer, {
-        //     modules: {
-        //       localIdentName: isProd ? `[local]_[contenthash:base64:4]` : `[local]_[path][name]`,
-        //       exportOnlyLocals: isServer,
-        //     },
-        //     importLoaders: 1,
-        //     sourceMap: !isProd,
-        //   }),
-        // },
       ],
     },
-    plugins: [
-      // new MiniCssExtractPlugin({
-      //   filename: isProd ? 'assets/css/[name].[contenthash:8].css' : '[name].css',
-      //   chunkFilename: isProd ? 'assets/css/[name].[contenthash:8].css' : '[name].css',
-      //   // Remove css order warnings if css imports are not sorted
-      //   // alphabetically. See https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422
-      //   // for more reasoning
-      //   ignoreOrder: true,
-      // }),
-    ],
+    plugins: [],
     mode,
     name,
     cache: {
