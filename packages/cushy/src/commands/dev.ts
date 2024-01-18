@@ -5,7 +5,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import { loadCustomConfig } from '../server/loadConfig';
 import * as logger from '../logger';
 import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../constants';
-import evalSourceMapMiddleware from '../misc/evalSourceMapMiddleware';
+import createEvalSourceMapMiddleware from '../webpack/createEvalSourceMapMiddleware';
 import createClientConfig from '../webpack/client';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { blue } from '../logger/terminal-color';
@@ -103,7 +103,7 @@ export async function dev(cliOptions: Partial<DevCLIOptions> = {}): Promise<void
     port,
     setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
-      middlewares.unshift(evalSourceMapMiddleware(devServer));
+      middlewares.unshift(createEvalSourceMapMiddleware(devServer));
       return middlewares;
     },
   };
