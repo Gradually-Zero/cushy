@@ -3,9 +3,9 @@ import fs from 'fs-extra';
 import jiti from 'jiti';
 import Joi from 'joi';
 import { process_CWD, DEFAULT_CONFIG_FILE_NAME } from '../constants';
-import logger from '../logger';
+import * as logger from '../logger';
 
-interface LoadCustomCushyConfig {
+interface LoadCustomConfig {
   customConfigFilePath?: string;
 }
 
@@ -18,7 +18,7 @@ export interface LoadContext {
   siteConfigPath: string;
 }
 
-export async function loadCustomCushyConfig({ customConfigFilePath }: LoadCustomCushyConfig): Promise<LoadContext> {
+export async function loadCustomConfig({ customConfigFilePath }: LoadCustomConfig): Promise<LoadContext> {
   const siteConfigPath = customConfigFilePath ? path.resolve(process_CWD, customConfigFilePath) : await findConfig(process_CWD);
 
   if (!(await fs.pathExists(siteConfigPath))) {
@@ -73,7 +73,7 @@ jiti is able to load ESM, CJS, JSON, TS modules
 async function loadFreshModule(modulePath: string): Promise<unknown> {
   try {
     if (typeof modulePath !== 'string') {
-      throw new Error(logger.interpolate`Invalid module path of type name=${modulePath}`);
+      throw new Error(`Invalid module path of type name=${modulePath}`);
     }
     const load = jiti(__filename, {
       // Transpilation cache, can be safely enabled
@@ -90,7 +90,7 @@ async function loadFreshModule(modulePath: string): Promise<unknown> {
 
     return load(modulePath);
   } catch (error) {
-    throw new Error(logger.interpolate`Cushy could not load module at path path=${modulePath}\nCause: ${(error as Error).message}`, { cause: error });
+    throw new Error(`Cushy could not load module at path path=${modulePath}\nCause: ${(error as Error).message}`, { cause: error });
   }
 }
 
