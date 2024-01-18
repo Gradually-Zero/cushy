@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { outDir, baseUrl, process_CWD } from '../constants';
+import { WEBPACK_OUTPUT_DIR_NAME, baseUrl, process_CWD, GENERATED_FILES_DIR_NAME } from '../constants';
 import type { Configuration } from 'webpack';
 import type { ClientConfigProps } from './client';
 
@@ -9,7 +9,7 @@ const CSS_MODULE_REGEX = /\.module\.css$/i;
 
 export async function createBaseConfig(props: ClientConfigProps, isServer: boolean, minify: boolean = true): Promise<Configuration> {
   const { siteConfigPath } = props;
-  const generatedFilesDir = path.resolve(process_CWD, '.cushy');
+  const generatedFilesDir = path.resolve(process_CWD, GENERATED_FILES_DIR_NAME);
 
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd && !isServer;
@@ -120,7 +120,7 @@ export async function createBaseConfig(props: ClientConfigProps, isServer: boole
     },
     output: {
       pathinfo: false,
-      path: path.resolve(process_CWD, outDir),
+      path: path.resolve(process_CWD, WEBPACK_OUTPUT_DIR_NAME),
       filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
       chunkFilename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
       publicPath: baseUrl,

@@ -3,7 +3,7 @@ export default `
 <html <%~ it.htmlAttributes %>>
   <head>
     <meta charset="UTF-8">
-    <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <meta name="generator" content="Cushy v<%= it.version %>">
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
     <% }); %>

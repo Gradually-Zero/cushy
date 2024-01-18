@@ -2,11 +2,11 @@ import path from 'path';
 import merge from 'webpack-merge';
 import WebpackBar from 'webpackbar';
 import { DefinePlugin } from 'webpack';
-import logger from '../logger';
+import * as logger from '../logger';
 import { createBaseConfig } from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import type { Configuration } from 'webpack';
-import type { LoadContext } from '../server/config';
+import type { LoadContext } from '../server/loadConfig';
 
 export default async function createClientConfig(props: ClientConfigProps, minify: boolean = true, hydrate: boolean = true): Promise<Configuration> {
   const isBuilding = process.argv[2] === 'build';
