@@ -3,7 +3,7 @@ import ReactDOM, { type ErrorInfo } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './app';
-import { canUseDOM } from './can-use';
+import { canUseDOM } from './can-use-dom';
 
 // import preload from './preload';
 
