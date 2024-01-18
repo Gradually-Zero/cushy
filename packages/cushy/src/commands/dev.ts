@@ -5,7 +5,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import { loadCustomConfig } from '../server/loadConfig';
 import * as logger from '../logger';
 import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../constants';
-import createEvalSourceMapMiddleware from '../webpack/createEvalSourceMapMiddleware';
+import createEvalSourceMapMiddleware from '../webpack/dev-server-middlewares/createEvalSourceMapMiddleware';
 import createClientConfig from '../webpack/client';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { blue } from '../logger/terminal-color';

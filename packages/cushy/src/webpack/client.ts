@@ -4,7 +4,6 @@ import WebpackBar from 'webpackbar';
 import { DefinePlugin } from 'webpack';
 import * as logger from '../logger';
 import { createBaseConfig } from './base';
-import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import type { Configuration } from 'webpack';
 import type { LoadContext } from '../server/loadConfig';
 
