@@ -2,13 +2,13 @@ import path from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import WebpackDevServer from 'webpack-dev-server';
-import { loadCustomCushyConfig } from '../server/config';
-import logger from '../logger';
+import { loadCustomConfig } from '../server/loadConfig';
+import * as logger from '../logger';
 import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../constants';
 import evalSourceMapMiddleware from '../misc/evalSourceMapMiddleware';
-import prepareUrls from '../misc/prepareUrls';
 import createClientConfig from '../webpack/client';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { blue } from '../logger/terminal-color';
 
 export interface DevCLIOptions {
   /** Custom config path. Can be customized with `--config` option */
@@ -18,11 +18,7 @@ export interface DevCLIOptions {
 export async function dev(cliOptions: Partial<DevCLIOptions> = {}): Promise<void> {
   logger.info('Starting the development server...');
 
-  const props = await loadCustomCushyConfig({ customConfigFilePath: cliOptions?.config });
-
-  const urls = prepareUrls(protocol, host, port);
-
-  console.log('urls', urls);
+  const props = await loadCustomConfig({ customConfigFilePath: cliOptions?.config });
 
   let config: webpack.Configuration = merge(await createClientConfig(props, true, false), {
     watchOptions: {
@@ -49,6 +45,7 @@ export async function dev(cliOptions: Partial<DevCLIOptions> = {}): Promise<void
   });
 
   const compiler = webpack(config);
+
   compiler.hooks.done.tap('done', (stats) => {
     const errorsWarnings = stats.toJson('errors-warnings');
     console.error(errorsWarnings);
@@ -113,7 +110,8 @@ export async function dev(cliOptions: Partial<DevCLIOptions> = {}): Promise<void
 
   const devServer = new WebpackDevServer(defaultDevServerConfig, compiler);
   devServer.startCallback(() => {
-    logger.info('Starting the development server...');
+    const appUrl = `${protocol}://${host}:${port}`;
+    logger.bootstrap(` - Local:        ${blue(appUrl)}`);
   });
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {

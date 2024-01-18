@@ -23,7 +23,7 @@ if (canUseDOM) {
   );
 
   const onRecoverableError = (error: unknown, errorInfo: ErrorInfo): void => {
-    console.error('Docusaurus React Root onRecoverableError:', error, errorInfo);
+    console.error('Cushy React Root onRecoverableError:', error, errorInfo);
   };
 
   const renderApp = () => {
