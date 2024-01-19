@@ -1,9 +1,10 @@
-import { bold, red, yellow, white } from './terminal-color';
+import { bold, bgMagenta, bgYellow, bgRed, bgBlue } from './terminal-color';
 
 const prefixes = {
-  info: white(bold(' ')),
-  warn: yellow(bold('⚠')),
-  error: red(bold('⨯')),
+  info: bgMagenta(bold(' INFO ')),
+  warn: bgYellow(bold(' WARN ')),
+  error: bgRed(bold(' ERROR ')),
+  http: bgBlue(bold(' HTTP ')),
 } as const;
 
 const LOGGING_METHOD = {
@@ -28,10 +29,6 @@ function prefixedLog(prefixType: keyof typeof prefixes, ...message: any[]) {
   }
 }
 
-export function bootstrap(...message: any[]) {
-  console.log(' ', ...message);
-}
-
 export function info(...message: any[]) {
   prefixedLog('info', ...message);
 }
@@ -42,4 +39,8 @@ export function warn(...message: any[]) {
 
 export function error(...message: any[]) {
   prefixedLog('error', ...message);
+}
+
+export function bootstrap(...message: any[]) {
+  prefixedLog('http', ...message);
 }
