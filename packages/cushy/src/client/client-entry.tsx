@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM, { type ErrorInfo } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './app';
 import { canUseDOM } from './can-use-dom';
-
-// import preload from './preload';
 
 const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);
 
@@ -16,9 +13,7 @@ if (canUseDOM) {
 
   const app = (
     <HelmetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <App />
     </HelmetProvider>
   );
 
@@ -41,7 +36,6 @@ if (canUseDOM) {
     }
   };
 
-  // preload(window.location.pathname).then(renderApp);
   renderApp();
 
   // Webpack Hot Module Replacement API
