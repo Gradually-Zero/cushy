@@ -1,37 +1,25 @@
 import path from 'path';
 import fs from 'fs-extra';
-import jiti from 'jiti';
 import Joi from 'joi';
-import { process_CWD, DEFAULT_CONFIG_FILE_NAME } from '../constants';
-import * as logger from '../logger';
+import jiti from 'jiti';
+import * as logger from '../server.logger';
+import { blue } from '../server.logger/terminal-color';
+import { DEFAULT_CONFIG_FILE_NAME, process_CWD } from '../server.constants';
 
-interface LoadCustomConfig {
-  customConfigFilePath?: string;
-}
+export async function loadConfig(configFilePath?: string) {
+  const config_path = configFilePath ? path.resolve(process_CWD, configFilePath) : await findConfig(process_CWD);
 
-export interface CushyConfig {
-  patterns?: string[];
-}
-
-export interface LoadContext {
-  siteConfig: CushyConfig;
-  siteConfigPath: string;
-}
-
-export async function loadCustomConfig({ customConfigFilePath }: LoadCustomConfig): Promise<LoadContext> {
-  const siteConfigPath = customConfigFilePath ? path.resolve(process_CWD, customConfigFilePath) : await findConfig(process_CWD);
-
-  if (!(await fs.pathExists(siteConfigPath))) {
-    throw new Error(`Config file at "${siteConfigPath}" not found.`);
+  if (!(await fs.pathExists(config_path))) {
+    throw new Error(`Config file at "${config_path}" not found.`);
   }
 
-  const importedConfig = await loadFreshModule(siteConfigPath);
+  const importedConfig = await loadFreshModule(config_path);
 
   const loadedConfig: unknown = typeof importedConfig === 'function' ? await importedConfig() : await importedConfig;
 
-  const siteConfig = validateConfig(loadedConfig, path.relative(process_CWD, siteConfigPath));
+  const siteConfig = validateConfig(loadedConfig, path.relative(process_CWD, config_path));
 
-  return { siteConfig, siteConfigPath };
+  return siteConfig;
 }
 
 async function findConfig(siteDir: string) {
@@ -41,10 +29,14 @@ async function findConfig(siteDir: string) {
     candidates.map((file) => path.join(siteDir, file)),
     fs.pathExists
   );
+
   if (!configPath) {
     logger.error('No config file found.');
-    logger.info`Expected one of:${candidates}
-You can provide a custom config path with the code=${'--config'} option.`;
+    logger.info('Expected one of:');
+    candidates.map((candidate) => {
+      logger.line(`- ${candidate}`);
+    });
+    logger.line(`You can provide a custom config path with the ${blue('--config')} option.`);
     throw new Error();
   }
   return configPath;
@@ -67,8 +59,8 @@ async function findAsyncSequential<T>(array: T[], predicate: (t: T) => Promise<b
   return undefined;
 }
 
-/*
-jiti is able to load ESM, CJS, JSON, TS modules
+/**
+ * jiti is able to load ESM, CJS, JSON, TS modules
  */
 async function loadFreshModule(modulePath: string): Promise<unknown> {
   try {
@@ -94,6 +86,23 @@ async function loadFreshModule(modulePath: string): Promise<unknown> {
   }
 }
 
+export interface CushyConfig {
+  patterns: string[];
+  root: string;
+}
+
+const DEFAULT_CONFIG: Pick<CushyConfig, 'patterns' | 'root'> = {
+  patterns: [],
+  root: process_CWD,
+};
+
+const ConfigSchema = Joi.object<CushyConfig>({
+  patterns: Joi.array().items(Joi.string()).default(DEFAULT_CONFIG.patterns),
+  root: Joi.string().default(DEFAULT_CONFIG.root),
+}).messages({
+  'cushy.configValidationWarning': 'Cushy config validation warning. Field {#label}: {#warningMessage}',
+});
+
 function validateConfig(config: unknown, siteConfigPath: string): CushyConfig {
   const { error, warning, value } = ConfigSchema.validate(config, {
     abortEarly: false,
@@ -108,28 +117,25 @@ function validateConfig(config: unknown, siteConfigPath: string): CushyConfig {
       }
       return formattedError;
     }, '');
+
     let formattedError = error.details.reduce(
       (accumulatedErr, err) => (err.type !== 'object.unknown' ? `${accumulatedErr}${err.message}\n` : accumulatedErr),
       ''
     );
-    formattedError = unknownFields
-      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${siteConfigPath}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://cushy.io/docs/api/cushy-config/#customfields`
-      : formattedError;
-    throw new Error(formattedError);
+
+    if (unknownFields) {
+      logger.error(`${formattedError}These field(s) (${blue(unknownFields)}) are not recognized in ${blue(siteConfigPath)}.`);
+      logger.line(`If you still want these fields to be in your configuration, put them in the "customFields" field.`);
+      logger.line(`See https://cushy.io/docs/api/cushy-config/#customfields`);
+      logger.line();
+    } else {
+      logger.error(formattedError);
+    }
+    throw new Error();
   } else {
     return value;
   }
 }
-
-const DEFAULT_CONFIG: Pick<CushyConfig, 'patterns'> = {
-  patterns: [],
-};
-
-const ConfigSchema = Joi.object<CushyConfig>({
-  patterns: Joi.array().items(Joi.string()).default(DEFAULT_CONFIG.patterns),
-}).messages({
-  'cushy.configValidationWarning': 'Cushy config validation warning. Field {#label}: {#warningMessage}',
-});
 
 /** Print warnings returned from Joi validation. */
 function printWarning(warning?: Joi.ValidationError): void {

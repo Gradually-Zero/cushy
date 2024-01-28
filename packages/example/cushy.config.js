@@ -1,6 +1,6 @@
 /** @type {import('cushy').CushyConfig} */
 const config = {
-  patterns: ['xxx'],
+  root: './',
 };
 
 export default config;

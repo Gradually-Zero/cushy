@@ -1,10 +1,11 @@
-import { bold, bgMagenta, bgYellow, bgRed, bgBlue } from './terminal-color';
+import { bold, purple, yellow, red, blue } from './terminal-color';
 
 const prefixes = {
-  info: bgMagenta(bold(' INFO ')),
-  warn: bgYellow(bold(' WARN ')),
-  error: bgRed(bold(' ERROR ')),
-  http: bgBlue(bold(' HTTP ')),
+  info: purple(bold(' INFO ')),
+  warn: yellow(bold(' WARN ')),
+  error: red(bold(' ERROR ')),
+  http: blue(bold(' HTTP ')),
+  line: '',
 } as const;
 
 const LOGGING_METHOD = {
@@ -43,4 +44,8 @@ export function error(...message: any[]) {
 
 export function bootstrap(...message: any[]) {
   prefixedLog('http', ...message);
+}
+
+export function line(...message: any[]) {
+  prefixedLog('line', ...message);
 }

@@ -2,53 +2,28 @@ import path from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import WebpackDevServer from 'webpack-dev-server';
-import { loadCustomConfig } from '../server/loadConfig';
-import * as logger from '../logger';
-import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../constants';
-import createEvalSourceMapMiddleware from '../webpack/dev-server-middlewares/createEvalSourceMapMiddleware';
-import createClientConfig from '../webpack/client';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { blue } from '../logger/terminal-color';
+import * as logger from '../server.logger';
+import { blue } from '../server.logger/terminal-color';
+import { load } from '../server/load';
+import { createClientWebpackConfig } from '../server.webpack/client.config';
+import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../server.constants';
+import createEvalSourceMapMiddleware from '../server.webpack/dev-server-middlewares/createEvalSourceMapMiddleware';
 
 export interface DevCLIOptions {
   /** Custom config path. Can be customized with `--config` option */
-  config?: string;
+  configFilePath?: string;
 }
 
 export async function dev(cliOptions: Partial<DevCLIOptions> = {}): Promise<void> {
   logger.info('Starting the development server...');
 
-  const props = await loadCustomConfig({ customConfigFilePath: cliOptions?.config });
+  load(cliOptions?.configFilePath);
 
-  let config: webpack.Configuration = merge(await createClientConfig(props, true, false), {
-    watchOptions: {
-      ignored: /node_modules\/(?!cushy)/,
-      poll: false,
-    },
-    infrastructureLogging: {
-      // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
-      level: 'warn',
-    },
-    plugins: [
-      // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin({
-        template: path.join(__dirname, '../webpack/templates/index.html.template.ejs'),
-        // So we can define the position where the scripts are injected.
-        // inject: false,
-        filename: 'index.html',
-        title: '--cushy--',
-        // headTags,
-        // preBodyTags,
-        // postBodyTags,
-      }),
-    ],
-  });
-
-  const compiler = webpack(config);
+  const compiler = webpack(await createClientWebpackConfig());
 
   compiler.hooks.done.tap('done', (stats) => {
     const errorsWarnings = stats.toJson('errors-warnings');
-    console.error(errorsWarnings);
+    logger.error(errorsWarnings);
   });
 
   // https://webpack.js.org/configuration/dev-server
@@ -116,7 +91,7 @@ export async function dev(cliOptions: Partial<DevCLIOptions> = {}): Promise<void
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig, () => {
-      console.info('Stop server.');
+      logger.info('Stop server.');
       process.exit();
     });
   });
