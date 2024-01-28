@@ -2,6 +2,7 @@
   "name": "example",
   "scripts": {
     "dev": "cushy dev",
+    "d2": "cushy dev --config ./cushy.config.js",
     "build": "cushy build",
     "preview": "cushy preview"
   },
