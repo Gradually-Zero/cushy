@@ -13,9 +13,6 @@ importers:
       '@mdx-js/loader':
         specifier: ^3.0.0
         version: 3.0.0(webpack@5.89.0)
-      address:
-        specifier: ^2.0.1
-        version: 2.0.1
       chokidar:
         specifier: ^3.5.3
         version: 3.5.3
@@ -700,11 +697,6 @@ packages:
     resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-    dev: false
-
-  /address@2.0.1:
-    resolution: {integrity: sha512-Fd3nPUe+kPZ0P70sGkV8dAUchT3pQCyTPQO5xW9580oqVBPJe2PtWtK7KGnQBvgTrloWAOvOoX8DksyuIWssvQ==}
-    engines: {node: '>= 16.0.0'}
     dev: false
 
   /ajv-formats@2.1.1(ajv@8.12.0):

@@ -2,7 +2,6 @@
   "name": "cushy",
   "dependencies": {
     "@mdx-js/loader": "^3.0.0",
-    "address": "^2.0.1",
     "chokidar": "^3.5.3",
     "commander": "^11.1.0",
     "fs-extra": "^11.2.0",

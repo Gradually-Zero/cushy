@@ -1,7 +1,6 @@
 import fs from 'fs-extra';
 import { createHash } from 'crypto';
 import path from 'path';
-import { existsSync, lstatSync, readdirSync, statSync } from 'fs';
 import { generatedDir } from '../server.constants';
 import * as logger from '../server.logger';
 import { blue } from '../server.logger/terminal-color';
@@ -11,7 +10,7 @@ const excludeSpecifyFiles: RegExp[] = [];
 const excludeSpecifyDirs: RegExp[] = [/node_modules/];
 
 export function loadRoute(root: string) {
-  if (!(existsSync(root) && statSync(root).isDirectory())) {
+  if (!(fs.existsSync(root) && fs.statSync(root).isDirectory())) {
     logger.error(`${blue(root)} is not exist, or not directory.`);
     throw new Error();
   }
@@ -53,9 +52,9 @@ interface IteratorType {
 function iterateFiles(current_path: string, iterator: IteratorType, parent_path?: string): void {
   const parent_dir = parent_path || current_path;
 
-  for (const filename of readdirSync(current_path)) {
+  for (const filename of fs.readdirSync(current_path)) {
     const peddling = path.resolve(current_path, filename);
-    const peddling_stat = lstatSync(peddling);
+    const peddling_stat = fs.lstatSync(peddling);
 
     if (peddling_stat.isDirectory() && !isExcluded(peddling, excludeSpecifyDirs)) {
       iterateFiles(peddling, iterator, parent_dir);
