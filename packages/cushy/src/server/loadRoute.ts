@@ -31,19 +31,45 @@ export function loadRoute(root: string) {
     }
   });
 
-  let routesContentImport = 'import React from "react";\n';
+  let importContent = '';
+  let hasRootPath = false;
+  let firstFilePath = '';
 
-  const routes = Object.entries(files).map(([path, file]) => {
-    console.log('path', path);
-    routesContentImport += file?.importStatement + '\n';
-    return { path, element: `React.createElement(${file.importName})` };
+  const routes = Object.entries(files).map(([path, file], index) => {
+    importContent += file?.importStatement + '\n';
+
+    if (index === 0) {
+      firstFilePath = path;
+    }
+
+    if (path === 'index') {
+      hasRootPath = true;
+      return `<Route path="/" element={React.createElement(${file.importName})} />`;
+    }
+
+    return `<Route path="${path}" element={React.createElement(${file.importName})} />`;
   });
+
+  if (!hasRootPath) {
+    routes.push(`<Route path="/" element={<Navigate to="${firstFilePath ?? '/'}" />} />`);
+  }
 
   /**
    * 生成 routes.js
    * e.g. import Example from './中文.md';
    */
-  generate(generatedDir, 'routes.js', routesContentImport + `\nexport const routes = ${JSON.stringify(routes)}`.replace(componentReg, componentReplacer));
+  let routesContent = '';
+  routesContent += `import React from 'react';\n`;
+  routesContent += `import { Routes, Route, Navigate } from 'react-router-dom';\n`;
+  routesContent += importContent;
+  routesContent += `
+export const RouteNodes = (
+  <Routes>
+    ${routes.join('\n    ')}
+  </Routes>
+);\n`;
+
+  generate(generatedDir, 'routes.js', routesContent);
 }
 
 interface IteratorType {
@@ -104,15 +130,9 @@ function createFileKey(file: string) {
   return slash(stripFilenameExtension(file));
 }
 
-const syncImport = (importName: string, path: string) => `import ${importName} from "${path}"`;
+const syncImport = (importName: string, path: string) => `import ${importName} from '${path}';`;
 
 const createImportName = (key: string) => {
   const NAME_FORMAT = '__page_{md5}__';
   return NAME_FORMAT.replace('{md5}', md5(key));
 };
-
-const componentReg = /"(?:element)":("(.*?)")/g;
-
-function componentReplacer(str: string, replaceStr: string, path: string) {
-  return str.replace(replaceStr, path);
-}
