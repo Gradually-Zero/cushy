@@ -1,8 +1,9 @@
 import fs from 'fs-extra';
-import { createHash } from 'crypto';
 import path from 'path';
-import { generatedDir } from '../server.constants';
+import { generate } from './generate';
+import { md5 } from '../server.utils';
 import * as logger from '../server.logger';
+import { generatedDir } from '../server.constants';
 import { blue } from '../server.logger/terminal-color';
 
 const FilenameExtension = ['.md', '.mdx'];
@@ -15,15 +16,15 @@ export function loadRoute(root: string) {
     throw new Error();
   }
 
-  const files: { [route_path: string]: Record<string, string> } = {};
+  const files: { [file_key: string]: Record<string, string> } = {};
 
   iterateFiles(root, (fileRelativePath, fileAbsolutePath) => {
-    const route_path = createRoutePath(fileRelativePath);
+    const file_key = createFileKey(fileRelativePath);
     const file_slash_path = slash(fileRelativePath);
 
     if (!isExcluded(file_slash_path, excludeSpecifyFiles)) {
-      const importName = createImportName(route_path);
-      files[route_path] = {
+      const importName = createImportName(file_key);
+      files[file_key] = {
         importName,
         importStatement: syncImport(importName, slash(path.relative(generatedDir, fileAbsolutePath))),
       };
@@ -33,12 +34,15 @@ export function loadRoute(root: string) {
   let routesContentImport = 'import React from "react";\n';
 
   const routes = Object.entries(files).map(([path, file]) => {
+    console.log('path', path);
     routesContentImport += file?.importStatement + '\n';
     return { path, element: `React.createElement(${file.importName})` };
   });
 
-  // 生成 routes.js
-  // import Example from './中文.md';
+  /**
+   * 生成 routes.js
+   * e.g. import Example from './中文.md';
+   */
   generate(generatedDir, 'routes.js', routesContentImport + `\nexport const routes = ${JSON.stringify(routes)}`.replace(componentReg, componentReplacer));
 }
 
@@ -96,50 +100,9 @@ function stripFilenameExtension(file: string) {
   return file.replace(/\.[a-z0-9]+$/i, '');
 }
 
-function createRoutePath(file: string) {
+function createFileKey(file: string) {
   return slash(stripFilenameExtension(file));
 }
-
-/**
- * 生成文件缓存
- */
-const fileHash = new Map<string, string>();
-
-async function generate(generatedDir: string, file: string, content: string, skipCache: boolean = process.env.NODE_ENV === 'production'): Promise<void> {
-  const filepath = path.resolve(generatedDir, file);
-
-  if (skipCache) {
-    await fs.outputFile(filepath, content);
-    // Cache still needs to be reset, otherwise, writing "A", "B", and "A" where
-    // "B" skips cache will cause the last "A" not be able to overwrite as the
-    // first "A" remains in cache. But if the file never existed in cache, no
-    // need to register it.
-    if (fileHash.get(filepath)) {
-      fileHash.set(filepath, createHash('md5').update(content).digest('hex'));
-    }
-    return;
-  }
-
-  let lastHash = fileHash.get(filepath);
-
-  // If file already exists but it's not in runtime cache yet, we try to
-  // calculate the content hash and then compare. This is to avoid unnecessary
-  // overwriting and we can reuse old file.
-  if (!lastHash && (await fs.pathExists(filepath))) {
-    const lastContent = await fs.readFile(filepath, 'utf8');
-    lastHash = createHash('md5').update(lastContent).digest('hex');
-    fileHash.set(filepath, lastHash);
-  }
-
-  const currentHash = createHash('md5').update(content).digest('hex');
-
-  if (lastHash !== currentHash) {
-    await fs.outputFile(filepath, content);
-    fileHash.set(filepath, currentHash);
-  }
-}
-
-const md5 = (str: string) => createHash('md5').update(str).digest('hex');
 
 const syncImport = (importName: string, path: string) => `import ${importName} from "${path}"`;
 
