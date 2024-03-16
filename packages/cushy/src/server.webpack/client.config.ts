@@ -50,6 +50,8 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
               /** @type {import('@mdx-js/loader').Options} */
               options: {
                 /* jsxImportSource: …, otherOptions… */
+                // MDXProvider 不生效问题 https://github.com/orgs/mdx-js/discussions/2056
+                providerImportSource: '@mdx-js/react',
               },
             },
           ],
