@@ -4,7 +4,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './app';
 import { canUseDOM } from './can-use-dom';
 
-const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);
+// 暂时先不处理 hydrate
+const hydrate = /* Boolean(process.env.HYDRATE_CLIENT_ENTRY) */ false;
 
 // Client-side render (e.g: running in browser) to become single-page
 // application (SPA).
@@ -36,7 +37,9 @@ if (canUseDOM) {
     }
   };
 
-  renderApp();
+  Promise.resolve().then(() => {
+    renderApp();
+  });
 
   // Webpack Hot Module Replacement API
   if (module.hot) {
