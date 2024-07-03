@@ -2,12 +2,12 @@ import path from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import WebpackDevServer from 'webpack-dev-server';
-import * as logger from '../server.logger';
-import { blue } from '../server.logger/terminal-color';
+import * as logger from '../server_logger';
+import { blue } from '../server_logger/terminal-color';
 import { load } from '../server/load';
-import { createClientWebpackConfig } from '../server.webpack/client.config';
+import { createClientWebpackConfig } from '../server_webpack/client.config';
 import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../server.constants';
-import createEvalSourceMapMiddleware from '../server.webpack/dev-server-middlewares/createEvalSourceMapMiddleware';
+import createEvalSourceMapMiddleware from '../server_webpack/dev_server_middlewares/createEvalSourceMapMiddleware';
 
 export interface DevCLIOptions {
   /** Custom config path. Can be customized with `--config` option */

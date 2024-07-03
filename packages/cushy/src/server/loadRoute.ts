@@ -1,10 +1,10 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { generate } from './generate';
-import { md5 } from '../server.utils';
-import * as logger from '../server.logger';
+import { md5 } from '../server_utils';
+import * as logger from '../server_logger';
 import { generatedDir } from '../server.constants';
-import { blue } from '../server.logger/terminal-color';
+import { blue } from '../server_logger/terminal-color';
 
 const FilenameExtension = ['.md', '.mdx'];
 const excludeSpecifyFiles: RegExp[] = [];
