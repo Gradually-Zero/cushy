@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import Joi from 'joi';
 import jiti from 'jiti';
-import * as logger from '../server.logger';
-import { blue } from '../server.logger/terminal-color';
+import * as logger from '../server_logger';
+import { blue } from '../server_logger/terminal-color';
 import { DEFAULT_CONFIG_FILE_NAME, process_CWD } from '../server.constants';
 
 export async function loadConfig(configFilePath?: string) {

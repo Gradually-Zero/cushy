@@ -3,13 +3,18 @@ import fs from 'fs-extra';
 import WebpackBar from 'webpackbar';
 import { DefinePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WEBPACK_OUTPUT_DIR_NAME, baseUrl, generatedDir, process_CWD } from '../server.constants';
 import type { Configuration } from 'webpack';
+
+const CSS_REGEX = /\.css$/i;
+const CSS_MODULE_REGEX = /\.module\.css$/i;
 
 export async function createClientWebpackConfig(): Promise<Configuration> {
   const name = 'client';
   const mode = 'development';
   const hydrate = true;
+  const isProd = process.env.NODE_ENV === 'production';
 
   const config: Configuration = {
     entry: path.resolve(__dirname, '../client/client-entry.js'),
@@ -56,12 +61,97 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
             },
           ],
         },
+        {
+          test: CSS_REGEX,
+          exclude: CSS_MODULE_REGEX,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: true,
+              },
+            },
+            {
+              loader: require.resolve('style-loader'),
+            },
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                esModule: false,
+                importLoaders: 1,
+                sourceMap: !isProd,
+              },
+            },
+            {
+              // Options for PostCSS as we reference these options twice
+              // Adds vendor prefixing based on your specified browser support in
+              // package.json
+              loader: require.resolve('postcss-loader'),
+              options: {
+                postcssOptions: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebook/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: [
+                    // eslint-disable-next-line global-require
+                    require('autoprefixer'),
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+        // using the extension .module.css
+        {
+          test: CSS_MODULE_REGEX,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: true,
+              },
+            },
+            {
+              loader:"style-loader"
+            },
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                esModule: false,
+                modules: {
+                  localIdentName: isProd ? `[local]_[contenthash:base64:4]` : `[local]_[path][name]`,
+                  exportOnlyLocals: false,
+                },
+                importLoaders: 1,
+                sourceMap: !isProd,
+              },
+            },
+            {
+              // Options for PostCSS as we reference these options twice
+              // Adds vendor prefixing based on your specified browser support in
+              // package.json
+              loader: require.resolve('postcss-loader'),
+              options: {
+                postcssOptions: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebook/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: [
+                    // eslint-disable-next-line global-require
+                    require('autoprefixer'),
+                  ],
+                },
+              },
+            },
+          ],
+        },
       ],
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, '../server.webpack/templates/index.html.template.ejs'),
+        template: path.join(__dirname, '../server_webpack/templates/index.html.template.ejs'),
         // So we can define the position where the scripts are injected.
         // inject: false,
         filename: 'index.html',
@@ -77,6 +167,14 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
       // Show compilation progress bar and build time.
       new WebpackBar({
         name: 'Client',
+      }),
+      new MiniCssExtractPlugin({
+        filename: isProd ? 'assets/css/[name].[contenthash:8].css' : '[name].css',
+        chunkFilename: isProd ? 'assets/css/[name].[contenthash:8].css' : '[name].css',
+        // Remove css order warnings if css imports are not sorted
+        // alphabetically. See https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422
+        // for more reasoning
+        ignoreOrder: true,
       }),
     ],
     mode,

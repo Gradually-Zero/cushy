@@ -51,9 +51,6 @@
         "allowJs": true,
         "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
     },
-    "include": [
-        "./**/*"
-    ],
     "exclude": [
         "node_modules",
         "**/lib/**/*",

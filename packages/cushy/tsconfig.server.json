@@ -8,6 +8,14 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src"],
-  "exclude": ["src/client", "**/__tests__/**"]
+  "include": [
+    "src",
+  ],
+  "exclude": [
+    "**/__tests__/**",
+    "src/client",
+    "src/client_mdx",
+    "src/client_theme",
+    "src/client_theme_basic",
+  ]
 }

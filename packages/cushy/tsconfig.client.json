@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "noEmit": false,
     "composite": true,
     "incremental": true,
@@ -10,10 +13,13 @@
     "module": "esnext",
     "target": "esnext",
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
   },
   "include": [
-    "src/client"
+    "src/client",
+    "src/client_mdx",
+    "src/client_theme",
+    "src/client_theme_basic",
   ],
   "exclude": [
     "**/__tests__/**"

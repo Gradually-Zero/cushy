@@ -37,3 +37,7 @@ commands\dev.ts
 根据 devServerConfig 和 compiler 生成 devServer
 
 启动 devServer
+
+## tsconfig
+
+文件含有 `.` `client.theme` 解析会有问题，client.theme 文件夹下的文件并没受到，tsconfig.client.json 配置。
