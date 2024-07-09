@@ -12,10 +12,7 @@
 
 html {
   @apply nx-antialiased nx-text-base nx-scroll-pt-[--nextra-navbar-height];
-  font-feature-settings:
-    'rlig' 1,
-    'calt' 1,
-    'ss01' 1;
+  font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -52,8 +49,7 @@ summary {
     backface-visibility: hidden;
 
     & > .nextra-scrollbar {
-      mask-image: linear-gradient(to bottom, transparent, #000 20px),
-        linear-gradient(to left, #000 10px, transparent 10px);
+      mask-image: linear-gradient(to bottom, transparent, #000 20px), linear-gradient(to left, #000 10px, transparent 10px);
     }
   }
 
@@ -107,14 +103,11 @@ article details > summary {
 @media (min-width: 768px) {
   .nextra-toc > .div,
   .nextra-sidebar-container {
-    mask-image: linear-gradient(to bottom, transparent, #000 20px),
-      linear-gradient(to left, #000 10px, transparent 10px);
+    mask-image: linear-gradient(to bottom, transparent, #000 20px), linear-gradient(to left, #000 10px, transparent 10px);
   }
 }
 
-@supports (
-  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
-) {
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   .nextra-search ul {
     @apply nx-backdrop-blur-lg nx-bg-white/70 dark:nx-bg-dark/80;
   }

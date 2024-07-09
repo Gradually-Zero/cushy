@@ -41,3 +41,13 @@ commands\dev.ts
 ## tsconfig
 
 文件含有 `.` `client.theme` 解析会有问题，client.theme 文件夹下的文件并没受到，tsconfig.client.json 配置。
+
+## tailwindcss
+
+[sanity#3884#issuecomment](https://github.com/sanity-io/sanity/issues/3884#issuecomment-1450403244)
+[tailwindcss#6393#issuecomment](https://github.com/tailwindlabs/tailwindcss/issues/6393#issuecomment-1080723375)
+
+## remark-gfm
+
+[mdxjs#Migrating from v1 to v2](https://mdxjs.com/migrating/v2/)
+[mdxjs#discussioncomment](https://github.com/orgs/mdx-js/discussions/2218#discussioncomment-4627849)
