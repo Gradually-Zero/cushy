@@ -1,3 +1,4 @@
+const path = require('path');
 const colors = require('tailwindcss/colors');
 
 const makePrimaryColor =
@@ -9,7 +10,7 @@ const makePrimaryColor =
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   prefix: 'nx-',
-  content: ['./src/**/*.tsx'],
+  content: [path.join(__dirname, './src/**/*.tsx')],
   theme: {
     screens: {
       sm: '640px',
