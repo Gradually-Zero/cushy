@@ -27,3 +27,22 @@
 "webpack-merge": "^5.10.0",
 "webpackbar": "^6.0.0"
 ```
+
+## math
+
+remark-math — remark 插件，支持 markdown 中的数学语法
+rehype-katex — rehype 插件，使用 KaTeX 在 HTML 中呈现数学
+
+remark-gfm
+
+@theguild/remark-npm2yarn
+
+remark-math
+
+katex
+
+rehype-katex
+
+rehype-pretty-code
+
+rehype-raw

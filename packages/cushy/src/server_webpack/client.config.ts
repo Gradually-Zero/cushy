@@ -15,6 +15,10 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
   const mode = 'development';
   const hydrate = true;
   const isProd = process.env.NODE_ENV === 'production';
+  const remarkGfm = (await import('remark-gfm')).default;
+  const remarkMath = (await import('remark-math')).default;
+  // const remarkNpm2Yarn = (await import('@theguild/remark-npm2yarn')).remarkNpm2Yarn;
+  const rehypeKatex = (await import('rehype-katex')).default;
 
   const config: Configuration = {
     entry: path.resolve(__dirname, '../client/client-entry.js'),
@@ -57,6 +61,20 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
                 /* jsxImportSource: …, otherOptions… */
                 // MDXProvider 不生效问题 https://github.com/orgs/mdx-js/discussions/2056
                 providerImportSource: '@mdx-js/react',
+                // 加入 remark-gfm
+                remarkPlugins: [
+                  remarkGfm,
+                  remarkMath,
+                  // [
+                  //   remarkNpm2Yarn, // should be before remarkRemoveImports because contains `import { Tabs as $Tabs, Tab as $Tab } from ...`
+                  //   {
+                  //     packageName: 'nextra/components',
+                  //     tabNamesProp: 'items',
+                  //     storageKey: 'selectedPackageManager',
+                  //   },
+                  // ],
+                ],
+                rehypePlugins: [rehypeKatex],
               },
             },
           ],

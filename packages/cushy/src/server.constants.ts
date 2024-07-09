@@ -12,7 +12,7 @@ export const baseUrl = '/';
 export const staticDirectories = ['static'];
 export const protocol = 'http';
 export const host = 'localhost';
-export const port = 3001;
+export const port = 30003;
 
 /**
  * This does not have extensions, so that we can substitute different ones
