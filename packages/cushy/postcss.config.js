@@ -1,9 +1,10 @@
 /** @type {import('postcss').Postcss} */
 module.exports = {
   plugins: {
-    'postcss-import': {},
-    'tailwindcss/nesting': {},
+    autoprefixer: {},
     tailwindcss: {},
+    'tailwindcss/nesting': {},
+    'postcss-import': {},
     'postcss-lightningcss': {
       browsers: '>= .25%',
     },
