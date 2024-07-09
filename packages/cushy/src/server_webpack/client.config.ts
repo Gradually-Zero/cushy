@@ -65,12 +65,12 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                esModule: true,
-              },
-            },
+            // {
+            //   loader: MiniCssExtractPlugin.loader,
+            //   options: {
+            //     esModule: true,
+            //   },
+            // },
             {
               loader: require.resolve('style-loader'),
             },
@@ -106,14 +106,14 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
         {
           test: CSS_MODULE_REGEX,
           use: [
+            // {
+            //   loader: MiniCssExtractPlugin.loader,
+            //   options: {
+            //     esModule: true,
+            //   },
+            // },
             {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                esModule: true,
-              },
-            },
-            {
-              loader:"style-loader"
+              loader: require.resolve('style-loader'),
             },
             {
               loader: require.resolve('css-loader'),
