@@ -17,7 +17,7 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
   const isProd = process.env.NODE_ENV === 'production';
   const remarkGfm = (await import('remark-gfm')).default;
   const remarkMath = (await import('remark-math')).default;
-  // const remarkNpm2Yarn = (await import('@theguild/remark-npm2yarn')).remarkNpm2Yarn;
+  const remarkNpm2Yarn = (await import('@theguild/remark-npm2yarn')).remarkNpm2Yarn;
   const rehypeKatex = (await import('rehype-katex')).default;
 
   const config: Configuration = {
@@ -65,14 +65,14 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
                 remarkPlugins: [
                   remarkGfm,
                   remarkMath,
-                  // [
-                  //   remarkNpm2Yarn, // should be before remarkRemoveImports because contains `import { Tabs as $Tabs, Tab as $Tab } from ...`
-                  //   {
-                  //     packageName: 'nextra/components',
-                  //     tabNamesProp: 'items',
-                  //     storageKey: 'selectedPackageManager',
-                  //   },
-                  // ],
+                  [
+                    remarkNpm2Yarn, // should be before remarkRemoveImports because contains `import { Tabs as $Tabs, Tab as $Tab } from ...`
+                    {
+                      packageName: require.resolve('../client_theme_basic'),
+                      tabNamesProp: 'items',
+                      storageKey: 'selectedPackageManager',
+                    },
+                  ],
                 ],
                 rehypePlugins: [rehypeKatex],
               },
