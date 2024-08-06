@@ -1,5 +1,6 @@
 ```jsonc
 {
+  // React UI 组件
   "@headlessui/react": "^2.0.4",
   // mdxjs 的 webpack 解析 loader
   "@mdx-js/loader": "^3.0.1",
@@ -7,6 +8,7 @@
   "@mdx-js/react": "^3.0.1",
   // postcss 插件
   "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
+  // remark 插件
   "@theguild/remark-npm2yarn": "^0.3.0",
   // postcss 插件
   "autoprefixer": "^10.4.19",
@@ -43,6 +45,7 @@
   "remark-math": "^6.0.0",
   "style-loader": "^4.0.0",
   "swc-loader": "^0.2.6",
+  // css 框架
   "tailwindcss": "^3.4.4",
   // typescript importedHelper 需要使用，降低编译后代码的数量，起到压缩代码体积的作用。
   "tslib": "^2.6.3",
@@ -53,28 +56,28 @@
 }
 ```
 
-## math
+## markdown plugin
 
-remark-math — remark 插件，支持 markdown 中的数学语法
+remark-gfm -- remark 插件，支持 GFM
 
-rehype-katex — rehype 插件，使用 KaTeX 在 HTML 中呈现数学
+remark-math -- remark 插件，支持 markdown 中的数学语法
 
-remark-gfm
+katex -- 进行 TeX 数学渲染
 
-@theguild/remark-npm2yarn
-
-remark-math
-
-katex
-
-rehype-katex
+rehype-katex -- rehype 插件，使用 KaTeX 在 HTML 中呈现数学
 
 rehype-pretty-code
 
 rehype-raw
+
+### npm bash 命令
+
+@theguild/remark-npm2yarn -- remark 插件，将 npm bash 命令转换为带有标签的 yarn/pnpm
 
 ## ps
 
 `@tailwindcss/nesting` 这是一个 PostCSS 插件，它包装 postcss-nested 或 postcss-nesting 并充当兼容层，以确保您选择的嵌套插件正确理解自定义语法，如 @apply 和 @screen。
 
 `autoprefixer` PostCSS 插件用于解析 CSS 并使用 Can I Use 中的值将浏览器厂商前缀添加到 CSS 规则。Autoprefixer 将使用基于当前浏览器流行度和属性支持的数据为您应用前缀。
+
+## collect
