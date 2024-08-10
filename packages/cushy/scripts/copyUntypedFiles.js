@@ -2,6 +2,12 @@ import fs from 'fs-extra';
 import path from 'path';
 import chokidar from 'chokidar';
 
+/**
+ * 复制文件到 lib
+ * tsc 编译不会处理不相关的文件
+ * 例如: index.html.template.ejs
+ */
+
 const srcDir = path.join(process.cwd(), 'src');
 const libDir = path.join(process.cwd(), 'lib');
 
