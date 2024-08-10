@@ -1,10 +1,10 @@
 import cn from 'clsx';
-import { Code, Pre, Table, Td, Th, Tr } from '../client_theme_basic';
+import { Code, Pre, Table, Td, Th, Tr } from '../mdsite_theme_basic';
 import type { MDXComponents } from 'mdx/types';
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { Children, cloneElement, useEffect, useRef, useState } from 'react';
-// import { Anchor, Collapse } from '../client_theme';
-// import type { AnchorProps } from '../client_theme/anchor';
+// import { Anchor, Collapse } from '../mdsite_theme';
+// import type { AnchorProps } from '../mdsite_theme/anchor';
 // import type { DocsThemeConfig } from './constants';
 // import { DetailsProvider, useDetails, useSetActiveAnchor } from './contexts';
 // import { useIntersectionObserver, useSlugs } from './contexts/active-anchor';

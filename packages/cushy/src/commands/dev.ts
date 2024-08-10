@@ -2,12 +2,12 @@ import path from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import WebpackDevServer from 'webpack-dev-server';
-import * as logger from '../server_logger';
-import { blue } from '../server_logger/terminal-color';
-import { load } from '../server/load';
-import { createClientWebpackConfig } from '../server_webpack/client.config';
-import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../server.constants';
-import createEvalSourceMapMiddleware from '../server_webpack/dev_server_middlewares/createEvalSourceMapMiddleware';
+import * as logger from '../runner_logger';
+import { blue } from '../runner_logger/terminal-color';
+import { load } from '../runner/load';
+import { createMdsiteWebpackConfig } from '../runner_webpack/mdsite.config';
+import { process_CWD, baseUrl, staticDirectories, protocol, host, port } from '../runner.constants';
+import createEvalSourceMapMiddleware from '../runner_webpack/dev_server_middlewares/createEvalSourceMapMiddleware';
 
 export interface DevCLIOptions {
   /** Custom config path. Can be customized with `--config` option */
@@ -19,7 +19,7 @@ export async function dev(cliOptions: Partial<DevCLIOptions> = {}): Promise<void
 
   load(cliOptions?.configFilePath);
 
-  const compiler = webpack(await createClientWebpackConfig());
+  const compiler = webpack(await createMdsiteWebpackConfig());
 
   compiler.hooks.done.tap('done', (stats) => {
     const errorsWarnings = stats.toJson('errors-warnings');

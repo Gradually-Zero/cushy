@@ -5,7 +5,7 @@ import App from './app';
 import { canUseDOM } from './can-use-dom';
 
 // 暂时先不处理 hydrate
-const hydrate = /* Boolean(process.env.HYDRATE_CLIENT_ENTRY) */ false;
+const hydrate = /* Boolean(process.env.HYDRATE_MDSITE_ENTRY) */ false;
 
 // Client-side render (e.g: running in browser) to become single-page
 // application (SPA).

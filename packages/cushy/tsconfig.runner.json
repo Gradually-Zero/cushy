@@ -13,9 +13,8 @@
   ],
   "exclude": [
     "**/__tests__/**",
-    "src/client",
-    "src/client_mdx",
-    "src/client_theme",
-    "src/client_theme_basic",
+    "src/mdsite",
+    "src/mdsite_mdx",
+    "src/mdsite_theme_basic",
   ]
 }

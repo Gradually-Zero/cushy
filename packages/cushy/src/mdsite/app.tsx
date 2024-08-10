@@ -2,7 +2,7 @@ import { MDXProvider } from '@mdx-js/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RouteNodes } from '@generated/routes';
 import ErrorBoundary from './error-boundary';
-import { getComponents } from '../client_mdx/mdx_component';
+import { getComponents } from '../mdsite_mdx/mdx_component';
 import type { JSX /* , ClassAttributes, HTMLAttributes */ } from 'react';
 import 'katex/dist/katex.min.css';
 import './css/styles.css';

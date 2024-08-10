@@ -4,13 +4,13 @@ scripts 是捆绑过程中的一个 task. 复制文件 例如：packages\cushy\l
 
 commands 提供不同操作命令
 
-client 渲染端
+mdsite 渲染 markdown 的 react site
+
+runner 处理 cushy
 
 webpack 捆绑相关
 
-server 处理端
-
-webpack 缓存目录 `packages\example\node_modules\.cache\webpack\cushy-client-development`
+webpack 缓存目录 `packages\example\node_modules\.cache\webpack\cushy-mdsite-development`
 
 ---
 
@@ -40,7 +40,7 @@ commands\dev.ts
 
 ## tsconfig
 
-文件含有 `.` `client.theme` 解析会有问题，client.theme 文件夹下的文件并没受到，tsconfig.client.json 配置。
+文件含有 `.` `mdsite.theme` 解析会有问题，mdsite.theme 文件夹下的文件并没受到 tsconfig.mdsite.json 配置。
 
 ## tailwindcss
 
@@ -60,5 +60,5 @@ bundler :
 2. 编译构建 markdown site
 
 command : 执行 cushy
-server : tool for cushy
-client : site for markdown
+runner: tool for cushy
+mdsite: site for markdown
