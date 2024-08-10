@@ -4,7 +4,7 @@ import WebpackBar from 'webpackbar';
 import { DefinePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { WEBPACK_OUTPUT_DIR_NAME, baseUrl, generatedDir, process_CWD } from '../server.constants';
+import { WEBPACK_OUTPUT_DIR_NAME, baseUrl, generatedDir, process_CWD } from '../runner.constants';
 import type { Configuration } from 'webpack';
 
 const CSS_REGEX = /\.css$/i;
@@ -16,8 +16,8 @@ const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 const fileLoaderFileName = (folder: AssetFolder) => path.posix.join(OUTPUT_STATIC_ASSETS_DIR_NAME, folder, '[name]-[contenthash].[ext]');
 
-export async function createClientWebpackConfig(): Promise<Configuration> {
-  const name = 'client';
+export async function createMdsiteWebpackConfig(): Promise<Configuration> {
+  const name = 'mdsite';
   const mode = 'development';
   const hydrate = true;
   const isProd = process.env.NODE_ENV === 'production';
@@ -27,7 +27,8 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
   const rehypeKatex = (await import('rehype-katex')).default;
 
   const config: Configuration = {
-    entry: path.resolve(__dirname, '../client/client-entry.js'),
+    // mdsite/entry.tsx 运行时，是编译后，所以是 mdsite/entry.js
+    entry: path.resolve(__dirname, '../mdsite/entry.js'),
     module: {
       rules: [
         {
@@ -74,7 +75,7 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
                   [
                     remarkNpm2Yarn, // should be before remarkRemoveImports because contains `import { Tabs as $Tabs, Tab as $Tab } from ...`
                     {
-                      packageName: require.resolve('../client_theme_basic'),
+                      packageName: require.resolve('../mdsite_theme_basic'),
                       tabNamesProp: 'items',
                       storageKey: 'selectedPackageManager',
                     },
@@ -188,7 +189,7 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, '../server_webpack/templates/index.html.template.ejs'),
+        template: path.join(__dirname, '../runner_webpack/templates/index.html.template.ejs'),
         // So we can define the position where the scripts are injected.
         // inject: false,
         filename: 'index.html',
@@ -198,12 +199,12 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
         // postBodyTags,
       }),
       new DefinePlugin({
-        'process.env.HYDRATE_CLIENT_ENTRY': JSON.stringify(hydrate),
+        'process.env.HYDRATE_MDSITE_ENTRY': JSON.stringify(hydrate),
       }),
       // new ChunkAssetPlugin(),
       // Show compilation progress bar and build time.
       new WebpackBar({
-        name: 'Client',
+        name: 'Mdsite',
       }),
       new MiniCssExtractPlugin({
         filename: isProd ? 'assets/css/[name].[contenthash:8].css' : '[name].css',
@@ -257,7 +258,8 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
       // When one of those modules/dependencies change (including transitive
       // deps), cache is invalidated
       buildDependencies: {
-        config: [__filename, path.join(__dirname, 'client.config.js')],
+        // packages\cushy\src\runner_webpack\mdsite.config.ts 编译后的名字
+        config: [__filename, path.join(__dirname, 'mdsite.config.js')],
       },
     },
     output: {
@@ -280,7 +282,7 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
 
     optimization: {
       removeAvailableModules: false,
-      // Only minimize client bundle in production because server bundle is only
+      // Only minimize mdsite bundle in production because runner bundle is only
       // used for static site generation
       minimize: false,
       // Keep the runtime chunk separated to enable long term caching
@@ -292,11 +294,11 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
   return config;
 }
 
-const clientDir = path.join(__dirname, '..', 'client');
+const mdsiteDir = path.join(__dirname, '..', 'mdsite');
 
 function excludeJS(modulePath: string): boolean {
-  // Always transpile client dir
-  if (modulePath.startsWith(clientDir)) {
+  // Always transpile mdsite dir
+  if (modulePath.startsWith(mdsiteDir)) {
     return false;
   }
   // Don't transpile node_modules except any cushy npm package

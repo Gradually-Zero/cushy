@@ -58,7 +58,7 @@
   "scripts": {
     "build": "tsc --build && node ./scripts/copyUntypedFiles.js",
     "build:all": "pnpm build:ts && pnpm build:tailwind",
-    "build:tailwind": "pnpm postcss src/client/css/styles.css -o style.css --verbose"
+    "build:tailwind": "pnpm postcss src/mdsite/css/styles.css -o style.css --verbose"
   },
   "types": "./src/index.d.ts"
 }

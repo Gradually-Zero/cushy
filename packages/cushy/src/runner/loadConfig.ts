@@ -2,9 +2,9 @@ import path from 'path';
 import fs from 'fs-extra';
 import Joi from 'joi';
 import jiti from 'jiti';
-import * as logger from '../server_logger';
-import { blue } from '../server_logger/terminal-color';
-import { DEFAULT_CONFIG_FILE_NAME, process_CWD } from '../server.constants';
+import * as logger from '../runner_logger';
+import { blue } from '../runner_logger/terminal-color';
+import { DEFAULT_CONFIG_FILE_NAME, process_CWD } from '../runner.constants';
 
 export async function loadConfig(configFilePath?: string) {
   const config_path = configFilePath ? path.resolve(process_CWD, configFilePath) : await findConfig(process_CWD);

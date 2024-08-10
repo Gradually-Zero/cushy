@@ -8,7 +8,7 @@
     "noEmit": false,
     "composite": true,
     "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
+    "tsBuildInfoFile": "./lib/.tsbuildinfo-mdsite",
     "moduleResolution": "bundler",
     "module": "esnext",
     "target": "esnext",
@@ -16,10 +16,9 @@
     "outDir": "lib",
   },
   "include": [
-    "src/client",
-    "src/client_mdx",
-    "src/client_theme",
-    "src/client_theme_basic",
+    "src/mdsite",
+    "src/mdsite_mdx",
+    "src/mdsite_theme_basic",
   ],
   "exclude": [
     "**/__tests__/**"
