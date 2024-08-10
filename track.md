@@ -51,3 +51,14 @@ commands\dev.ts
 
 [mdxjs#Migrating from v1 to v2](https://mdxjs.com/migrating/v2/)
 [mdxjs#discussioncomment](https://github.com/orgs/mdx-js/discussions/2218#discussioncomment-4627849)
+
+## 组成
+
+bundler :
+
+1. 构建编译 cushy. 现在由 tsc 完成
+2. 编译构建 markdown site
+
+command : 执行 cushy
+server : tool for cushy
+client : site for markdown
