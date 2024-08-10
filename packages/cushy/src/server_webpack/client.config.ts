@@ -10,6 +10,12 @@ import type { Configuration } from 'webpack';
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 
+const OUTPUT_STATIC_ASSETS_DIR_NAME = 'assets';
+const WEBPACK_URL_LOADER_LIMIT = process.env.WEBPACK_URL_LOADER_LIMIT ?? 10000;
+const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
+type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
+const fileLoaderFileName = (folder: AssetFolder) => path.posix.join(OUTPUT_STATIC_ASSETS_DIR_NAME, folder, '[name]-[contenthash].[ext]');
+
 export async function createClientWebpackConfig(): Promise<Configuration> {
   const name = 'client';
   const mode = 'development';
@@ -160,6 +166,19 @@ export async function createClientWebpackConfig(): Promise<Configuration> {
                     require('autoprefixer'),
                   ],
                 },
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(?:woff2?|eot|ttf|otf)$/i,
+          use: [
+            {
+              loader: require.resolve('url-loader'),
+              options: {
+                limit: urlLoaderLimit,
+                name: fileLoaderFileName('fonts'),
+                fallback: require.resolve('file-loader'),
               },
             },
           ],
