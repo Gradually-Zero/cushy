@@ -4,6 +4,7 @@ import { RouteNodes } from '@generated/routes';
 import ErrorBoundary from './error-boundary';
 import { getComponents } from '../client_mdx/mdx_component';
 import type { JSX /* , ClassAttributes, HTMLAttributes */ } from 'react';
+import 'katex/dist/katex.min.css';
 import './css/styles.css';
 
 const router = createBrowserRouter([{ path: '*', Component: () => RouteNodes }]);
