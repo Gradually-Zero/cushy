@@ -62,3 +62,6 @@ bundler :
 command : 执行 cushy
 runner: tool for cushy
 mdsite: site for markdown
+
+mdx component
+theme component

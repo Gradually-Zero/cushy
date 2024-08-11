@@ -1,12 +1,12 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import '../styles/variables.css';
-@import '../styles/code-block.css';
-@import '../styles/subheading-anchor.css';
-@import '../styles/scrollbar.css';
-@import '../styles/steps.css';
-@import '../styles/cards.css';
+@import '../../mdsite/styles/variables.css';
+@import '../../mdsite/styles/code-block.css';
+@import '../../mdsite/styles/subheading-anchor.css';
+@import '../../mdsite/styles/scrollbar.css';
+@import '../../mdsite/styles/steps.css';
+@import '../../mdsite/styles/cards.css';
 @import './hamburger.css';
 @import './typesetting-article.css';
 

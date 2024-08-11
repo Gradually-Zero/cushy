@@ -1,11 +1,11 @@
 import { MDXProvider } from '@mdx-js/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RouteNodes } from '@generated/routes';
-import ErrorBoundary from './error-boundary';
-import { getComponents } from '../mdsite_mdx/mdx_component';
+import ErrorBoundary from './components/error-boundary';
+import { getComponents } from './mdx_components';
 import type { JSX /* , ClassAttributes, HTMLAttributes */ } from 'react';
 import 'katex/dist/katex.min.css';
-import './css/styles.css';
+import '../mdsite_theme/css/styles.css';
 
 const router = createBrowserRouter([{ path: '*', Component: () => RouteNodes }]);
 

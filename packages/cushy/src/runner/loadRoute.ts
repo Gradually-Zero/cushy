@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { generate } from './generate';
-import { md5 } from '../runner_utils';
+import { md5 } from '../runner_utilities';
 import * as logger from '../runner_logger';
 import { generatedDir } from '../runner.constants';
 import { blue } from '../runner_logger/terminal-color';

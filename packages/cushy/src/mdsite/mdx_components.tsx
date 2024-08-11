@@ -1,5 +1,5 @@
 import cn from 'clsx';
-import { Code, Pre, Table, Td, Th, Tr } from '../mdsite_theme_basic';
+import { Code, Pre, Table, Td, Th, Tr } from './components_mdx';
 import type { MDXComponents } from 'mdx/types';
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { Children, cloneElement, useEffect, useRef, useState } from 'react';
