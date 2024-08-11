@@ -75,7 +75,7 @@ export async function createMdsiteWebpackConfig(): Promise<Configuration> {
                   [
                     remarkNpm2Yarn, // should be before remarkRemoveImports because contains `import { Tabs as $Tabs, Tab as $Tab } from ...`
                     {
-                      packageName: require.resolve('../mdsite_theme_basic'),
+                      packageName: require.resolve('../mdsite/components_mdx'),
                       tabNamesProp: 'items',
                       storageKey: 'selectedPackageManager',
                     },

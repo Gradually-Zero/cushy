@@ -17,8 +17,7 @@
   },
   "include": [
     "src/mdsite",
-    "src/mdsite_mdx",
-    "src/mdsite_theme_basic",
+    "src/mdsite_theme",
   ],
   "exclude": [
     "**/__tests__/**"

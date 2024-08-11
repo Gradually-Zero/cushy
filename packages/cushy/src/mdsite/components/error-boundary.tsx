@@ -1,5 +1,5 @@
 import React, { type ReactNode } from 'react';
-import { canUseDOM } from './can-use-dom';
+import { canUseDOM } from '../utilities/can-use-dom';
 
 export default class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
   constructor(props: ErrorBoundaryProps) {

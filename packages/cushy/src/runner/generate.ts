@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { md5 } from '../runner_utils';
+import { md5 } from '../runner_utilities';
 
 /**
  * 生成文件缓存

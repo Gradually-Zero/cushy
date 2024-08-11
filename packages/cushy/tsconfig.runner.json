@@ -14,7 +14,6 @@
   "exclude": [
     "**/__tests__/**",
     "src/mdsite",
-    "src/mdsite_mdx",
-    "src/mdsite_theme_basic",
+    "src/mdsite_theme",
   ]
 }

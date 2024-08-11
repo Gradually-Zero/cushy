@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM, { type ErrorInfo } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './app';
-import { canUseDOM } from './can-use-dom';
+import { canUseDOM } from './utilities/can-use-dom';
 
 // 暂时先不处理 hydrate
 const hydrate = /* Boolean(process.env.HYDRATE_MDSITE_ENTRY) */ false;
